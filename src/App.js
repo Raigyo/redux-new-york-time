@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from "react";
+import { Request, Constant } from "./services/index";
 import "./App.css";
 
-const placeholderImg =
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQDsfRCwQvpsd4O5b6IK9evG9H1PTxZLoI6ew5iVnlz3ftQjMBQ";
+const { TOP_STORIES, MOST_POPULAR } = Constant;
 
-const Card = ({ id, published_date, title, abstract, section, url, media }) => {
-  const image = (media) => {
-    return media ? media[0]["media-metadata"][0].url : placeholderImg;
-  };
-
+const Card = ({
+  id,
+  published_date,
+  title,
+  abstract,
+  section,
+  url,
+  media,
+  img,
+}) => {
   return (
     <div className="card d-flex flex-row justify-content-between">
       <div className="d-flex">
         <img
           className="mr-4 rounded"
-          src={image(media)}
+          src={img}
           alt="placeholder"
           width="170"
           height="170"
@@ -45,50 +50,59 @@ const Card = ({ id, published_date, title, abstract, section, url, media }) => {
   );
 };
 
-const Navigation = () => (
-  <ul className="nav nav-pills">
-    <li className="nav-item">
-      <a className="nav-link active" aria-current="page" href="#0">
-        Top stories
-      </a>
-    </li>
-    <li className="nav-item">
-      <a className="nav-link" href="#0">
-        Most Popular
-      </a>
-    </li>
-  </ul>
-);
+const styles = {
+  left: {
+    borderTopLeftRadius: "20px",
+    borderBottomLeftRadius: "20px",
+  },
+  right: {
+    borderTopRightRadius: "20px",
+    borderBottomRightRadius: "20px",
+  },
+  info: { padding: 0, listStyleType: "none", fontSize: "14px" },
+};
+
+const Tabs = () => {
+  return (
+    <div className="d-flex justify-content-center mb-4">
+      <ul
+        className="nav nav-pills nav-fill"
+        style={{ marginTop: "20px", width: "70%" }}
+      >
+        <li className="nav-item">
+          <a className="nav-link active" href="#0" style={styles.left}>
+            Top Stories
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#0" style={styles.right}>
+            Most Popular
+          </a>
+        </li>
+      </ul>
+    </div>
+  );
+};
 
 function App() {
   // getter, setter = Array hooks
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    fetch(
-      "https://api.nytimes.com/svc/mostpopular/v2/emailed/7.json?api-key=Zx9nn2HMNuqg0B3x0OvpGsQt6hdNv1Be"
-    )
-      .then((response) => {
-        // console.log(response);
-        // debugger;
-        if (response.ok) {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        // console.log(data.results)
-        setResults(data.results);
-      });
+    const request = new Request(TOP_STORIES);
+    request
+      .get()
+      .then((articles) => setResults(articles))
+      .catch((err) => console.log({ err }));
   }, []);
   return (
     <div className="container">
-      <div className="col-md-6 offset-3" style={{ marginTop: "20px" }}>
-        <Navigation />
-        <br />
+      <div className="col-md-8 offset-2">
+        <Tabs />
         {results.map((result) => {
           return (
             <>
-              <Card {...result} /> <br />
+              <Card {...result} />
             </>
           );
         })}

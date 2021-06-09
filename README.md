@@ -26,3 +26,4 @@ It helps you write applications that behave consistently, run in different envir
 - [Developing modern offline apps with ReactJS, Redux and Electron – Part 3 – ReactJS + Redux](https://blog.codecentric.de/en/2017/12/developing-modern-offline-apps-reactjs-redux-electron-part-3-reactjs-redux-basics/)
 - [The New York Times Developer Network](https://developer.nytimes.com/apis)
 - [Build fast, responsive sites with Bootstrap](https://getbootstrap.com/)
+- [Flat UI Color 2](https://flatuicolors.com/)
