@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Request, Constant } from "./services/index";
+import { useDispatch, useSelector } from "react-redux";
+import { Constant } from "./services/index";
+import { getTopStories } from "./lib/state/actions";
 import "./App.css";
 
 const { TOP_STORIES, MOST_POPULAR } = Constant;
@@ -102,12 +104,9 @@ function App() {
   // getter, setter = Array hooks
   const [results, setResults] = useState([]);
   const [getApi, setApi] = useState(TOP_STORIES);
+  const dispatch = useDispatch();
   useEffect(() => {
-    const request = new Request(getApi);
-    request
-      .get()
-      .then((articles) => setResults(articles))
-      .catch((err) => console.log({ err }));
+    dispatch(getTopStories);
   }, [getApi]);
   const updateRequest = (withApi) => {
     setApi(withApi);
