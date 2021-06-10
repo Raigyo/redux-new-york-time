@@ -20,6 +20,14 @@ It helps you write applications that behave consistently, run in different envir
     <img src="_readme-img/redux-schema-01.png">
 </h1>
 
+<h1 align="center">
+    <img src="_readme-img/useEffect-01.png">
+</h1>
+
+<h1 align="center">
+    <img src="_readme-img/useEffect-02.png">
+</h1>
+
 ## Useful links
 
 - [Getting Started with Redux](https://redux.js.org/introduction/getting-started)

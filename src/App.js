@@ -15,7 +15,7 @@ const Card = ({
   img,
 }) => {
   return (
-    <div className="card d-flex flex-row justify-content-between">
+    <>
       <div className="d-flex">
         <img
           className="mr-4 rounded"
@@ -46,7 +46,7 @@ const Card = ({
       <p className="d-flex text-right" style={{ color: "#2980b9" }}>
         <strong>{section}</strong>
       </p>
-    </div>
+    </>
   );
 };
 
@@ -62,23 +62,37 @@ const styles = {
   info: { padding: 0, listStyleType: "none", fontSize: "14px" },
 };
 
-const Tabs = () => {
+const Tabs = ({ updateRequest }) => {
+  const links = ["Top stories", "Most popular"];
+  // getter, setter = String hooks
+  const [active, setActive] = useState("Top stories");
   return (
     <div className="d-flex justify-content-center mb-4">
       <ul
         className="nav nav-pills nav-fill"
         style={{ marginTop: "20px", width: "70%" }}
       >
-        <li className="nav-item">
-          <a className="nav-link active" href="#0" style={styles.left}>
-            Top Stories
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#0" style={styles.right}>
-            Most Popular
-          </a>
-        </li>
+        {links.map((link, index) => {
+          return (
+            <li
+              className="nav-item"
+              key={index}
+              onClick={() => {
+                setActive(link);
+                updateRequest(index === 0 ? TOP_STORIES : MOST_POPULAR);
+              }}
+            >
+              <a
+                // className={`nav-link ${link === active ? "active" : ""}`}
+                className={`nav-link ${link === active && "active"}`}
+                href="#0"
+                style={index === 0 ? styles.left : styles.right}
+              >
+                {link}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
@@ -87,23 +101,29 @@ const Tabs = () => {
 function App() {
   // getter, setter = Array hooks
   const [results, setResults] = useState([]);
-
+  const [getApi, setApi] = useState(TOP_STORIES);
   useEffect(() => {
-    const request = new Request(TOP_STORIES);
+    const request = new Request(getApi);
     request
       .get()
       .then((articles) => setResults(articles))
       .catch((err) => console.log({ err }));
-  }, []);
+  }, [getApi]);
+  const updateRequest = (withApi) => {
+    setApi(withApi);
+  };
   return (
     <div className="container">
       <div className="col-md-8 offset-2">
-        <Tabs />
-        {results.map((result) => {
+        <Tabs updateRequest={updateRequest} />
+        {results.map((result, index) => {
           return (
-            <>
+            <div
+              className="card d-flex flex-row justify-content-between"
+              key={index}
+            >
               <Card {...result} />
-            </>
+            </div>
           );
         })}
         {/* {results.map(() => (
