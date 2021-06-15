@@ -8,6 +8,8 @@ _June 2021_
     <img src="_readme-img/logo.jpg">
 </h1>
 
+## Redux
+
 _Redux is a predictable state container for JavaScript apps. It’s a « state container » because it holds all the state of your application. It doesn’t let you change that state directly, but instead forces you to describe changes as plain objects called « actions ». Actions can be recorded and replayed later, so this makes state management predictable. With the same actions in the same order, you’re going to end up in the same state._ (Dan Abramov)
 
 <h1 align="center">
@@ -41,6 +43,10 @@ The store is a place that holds the app's state.
 <h1 align="center">
     <img src="_readme-img/useEffect-02.png">
 </h1>
+
+## Context API
+
+Context API is a React API that can solve a lot of problems that modern applications face related to state management and how they’re passing state to their components. Instead of installing a state management library in your project that will eventually cost your project performance and increase your bundle size, you can easily go with Context API and be fine with it.
 
 ## Dependancies
 
