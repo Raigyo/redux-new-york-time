@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Constant } from "./services/index";
-import { getTopStories } from "./lib/state/actions";
+import { getTopStories, getMostPopular } from "./lib/state/actions";
 import "./App.css";
 
 const { TOP_STORIES, MOST_POPULAR } = Constant;
@@ -102,12 +102,16 @@ const Tabs = ({ updateRequest }) => {
 
 function App() {
   // getter, setter = Array hooks
-  const [results, setResults] = useState([]);
+  //const [results, setResults] = useState([]);
   const [getApi, setApi] = useState(TOP_STORIES);
   const dispatch = useDispatch();
+  const { top_stories } = useSelector((state) => ({ ...state.topStories }));
+  const { most_popular } = useSelector((state) => ({ ...state.mostPopular }));
+  const results = getApi === TOP_STORIES ? top_stories : most_popular;
   useEffect(() => {
-    dispatch(getTopStories);
-  }, [getApi]);
+    dispatch(getTopStories());
+    dispatch(getMostPopular());
+  }, [getApi, dispatch]);
   const updateRequest = (withApi) => {
     setApi(withApi);
   };

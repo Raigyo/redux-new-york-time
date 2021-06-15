@@ -43,6 +43,7 @@ export function fetchMostPopular(results) {
   };
 }
 
+// with promise
 export function getTopStories() {
   return (dispatch) => {
     dispatch(fetchPending());
@@ -54,5 +55,20 @@ export function getTopStories() {
         dispatch(fetchTopStories(results));
       })
       .catch((error) => dispatch(fetchError(error)));
+  };
+}
+
+// with async / await
+export function getMostPopular() {
+  return async (dispatch) => {
+    dispatch(fetchPending());
+    const request = new Request(MOST_POPULAR);
+    try {
+      const results = await request.get();
+      dispatch(fetchSuccess());
+      dispatch(fetchMostPopular(results));
+    } catch (error) {
+      dispatch(fetchError(error));
+    }
   };
 }

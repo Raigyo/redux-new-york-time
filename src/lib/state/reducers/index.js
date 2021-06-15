@@ -1,17 +1,12 @@
-import { actions, fetchTopStories } from "../actions/index";
-const {
-  FETCH_PENDING,
-  FETCH_TOP_STORIES,
-  FETCH_MOST_POPULAR,
-  FETCH_SUCCESS,
-  FETCH_ERROR,
-} = actions;
+import { combineReducers } from "redux";
+import { actions } from "../actions/index";
+import { topStories } from "./top_stories";
+import { mostPopular } from "./most_popular";
+const { FETCH_PENDING, FETCH_SUCCESS, FETCH_ERROR } = actions;
 
 const initialState = {
   isFetching: false,
   hasEroor: null,
-  top_stories: [],
-  most_popular: [],
 };
 
 export function reducer(state = initialState, action) {
@@ -32,17 +27,15 @@ export function reducer(state = initialState, action) {
         isFetching: false,
         hasError: action.payload.error,
       };
-    case FETCH_TOP_STORIES:
-      return {
-        ...state,
-        top_stories: action.payload.top_stories,
-      };
-    case FETCH_MOST_POPULAR:
-      return {
-        ...state,
-        most_popular: action.payload.most_popular,
-      };
     default:
       return state;
   }
 }
+
+const rootReducer = combineReducers({
+  reducer,
+  topStories,
+  mostPopular,
+});
+
+export default rootReducer;
