@@ -2,11 +2,22 @@
 
 _June 2021_
 
-> 🔨 From udemy '[Reactv16 & intégration Redux : fondamentaux et avancé - Sandy Ludosky](https://www.udemy.com/course/reactv16-integration-redux-fondamentaux-et-avance)'.
+> 🔨 Application displaying articles from New-York Times using Redux, Hooks and Context API. From udemy '[Reactv16 & intégration Redux : fondamentaux et avancé - Sandy Ludosky](https://www.udemy.com/course/reactv16-integration-redux-fondamentaux-et-avance)'.
+
+Demo on [Heroku](https://raigyo-redux-nyt.herokuapp.com/).
 
 <h1 align="center">
     <img src="_readme-img/logo.jpg">
 </h1>
+
+## Subjects covered
+
+- Fetch API
+- Redux (store and data flux)
+- Redux-thunk (async-await)
+- Redux hooks
+- Combine reducers
+- Context API (Provider, Consumer, Value)
 
 ## Redux
 
@@ -48,6 +59,14 @@ The store is a place that holds the app's state.
 
 Context API is a React API that can solve a lot of problems that modern applications face related to state management and how they’re passing state to their components. Instead of installing a state management library in your project that will eventually cost your project performance and increase your bundle size, you can easily go with Context API and be fine with it.
 
+## Test localy
+
+- `npm install`
+
+- `npm run start`
+
+Note: You will need to provide your own NYT API key in the _.env_ file.
+
 ## Dependancies
 
 - [redux](https://www.npmjs.com/package/redux): Redux is a predictable state container for JavaScript apps.
@@ -71,3 +90,5 @@ Context API is a React API that can solve a lot of problems that modern applicat
 - [Utiliser Redux avec React JS](https://www.softfluent.fr/blog/utiliser-redux-avec-react-js/)
 - [Build fast, responsive sites with Bootstrap](https://getbootstrap.com/)
 - [Flat UI Color 2](https://flatuicolors.com/)
+- [Provider Pattern with React Context API](https://flexiple.com/react/provider-pattern-with-react-context-api/)
+- [Introduction de la context API](https://makina-corpus.com/blog/metier/2018/react-16-3-utilisation-de-la-context-api)

@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Constant } from "./services/index";
 import { getTopStories, getMostPopular } from "./lib/state/actions";
+import { TabsContextConsumer } from "./lib/context/index";
 import "./App.css";
-
-const { TOP_STORIES, MOST_POPULAR } = Constant;
 
 const Card = ({
   id,
@@ -17,7 +15,7 @@ const Card = ({
   img,
 }) => {
   return (
-    <>
+    <div className="card d-flex flex-row justify-content-between">
       <div className="d-flex">
         <img
           className="mr-4 rounded"
@@ -48,7 +46,7 @@ const Card = ({
       <p className="d-flex text-right" style={{ color: "#2980b9" }}>
         <strong>{section}</strong>
       </p>
-    </>
+    </div>
   );
 };
 
@@ -64,10 +62,7 @@ const styles = {
   info: { padding: 0, listStyleType: "none", fontSize: "14px" },
 };
 
-const Tabs = ({ updateRequest }) => {
-  const links = ["Top stories", "Most popular"];
-  // getter, setter = String hooks
-  const [active, setActive] = useState("Top stories");
+const Tabs = ({ state: { links, active }, setActive }) => {
   return (
     <div className="d-flex justify-content-center mb-4">
       <ul
@@ -81,16 +76,15 @@ const Tabs = ({ updateRequest }) => {
               key={index}
               onClick={() => {
                 setActive(link);
-                updateRequest(index === 0 ? TOP_STORIES : MOST_POPULAR);
               }}
             >
               <a
-                // className={`nav-link ${link === active ? "active" : ""}`}
-                className={`nav-link ${link === active && "active"}`}
+                className={`nav-link ${link.name === active.name && "active"}`}
                 href="#0"
                 style={index === 0 ? styles.left : styles.right}
               >
-                {link}
+                <i className={`fas fa-${link.icon}`}></i>
+                {link.name}
               </a>
             </li>
           );
@@ -100,38 +94,32 @@ const Tabs = ({ updateRequest }) => {
   );
 };
 
-function App() {
-  // getter, setter = Array hooks
-  //const [results, setResults] = useState([]);
-  const [getApi, setApi] = useState(TOP_STORIES);
-  const dispatch = useDispatch();
+const List = ({ state: { active } }) => {
   const { top_stories } = useSelector((state) => ({ ...state.topStories }));
   const { most_popular } = useSelector((state) => ({ ...state.mostPopular }));
-  const results = getApi === TOP_STORIES ? top_stories : most_popular;
+  const results = active.name === "Top Stories" ? top_stories : most_popular;
+  return results.map((result, index) => <Card {...result} key={index} />);
+};
+
+function App() {
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTopStories());
     dispatch(getMostPopular());
-  }, [getApi, dispatch]);
-  const updateRequest = (withApi) => {
-    setApi(withApi);
-  };
+  }, [dispatch]);
   return (
     <div className="container">
       <div className="col-md-8 offset-2">
-        <Tabs updateRequest={updateRequest} />
-        {results.map((result, index) => {
-          return (
-            <div
-              className="card d-flex flex-row justify-content-between"
-              key={index}
-            >
-              <Card {...result} />
-            </div>
-          );
-        })}
-        {/* {results.map(() => (
-          <Card />
-        ))} */}
+        <TabsContextConsumer>
+          {(value) => {
+            return (
+              <>
+                <Tabs {...value} />
+                <List {...value} />
+              </>
+            );
+          }}
+        </TabsContextConsumer>
       </div>
     </div>
   );
